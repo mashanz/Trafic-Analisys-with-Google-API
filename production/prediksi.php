@@ -231,7 +231,7 @@ $totalRows_Recordset4 = mysql_num_rows($Recordset4);
                         <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Waktu</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           
-                          <select name="waktu" id="waktu" class="form-control" required>
+                          <select name="jam" id="jam" class="form-control" required>
                             <option value="">Pilih Waktu</option>
                             <?php do { ?>
                             	<option value="<?php echo $row_Recordset2['waktu']; ?>"><?php echo $row_Recordset2['waktu']; ?></option>
