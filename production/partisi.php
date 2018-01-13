@@ -2,9 +2,11 @@
 <?php
 echo "";
 
+
+
 function countData($atribut, $kondisi)
 {
-    $sql = mysql_query("SELECT count(id) as id FROM hasil_prediksi where $atribut AND kondisi = '$kondisi'");
+    $sql = mysql_query("SELECT count(id) as id FROM data_kemacetan where $atribut AND kondisi = '$kondisi'");
     while($row = mysql_fetch_array($sql)) {
         $count = "$row[id]";
     }
@@ -12,7 +14,7 @@ function countData($atribut, $kondisi)
 }
 function countPersentase($banyak, $atribut)
 {
-$sqlTotal = mysql_query("SELECT count(id) as id FROM hasil_prediksi where $atribut");
+$sqlTotal = mysql_query("SELECT count(id) as id FROM data_kemacetan where $atribut");
 $rowTotal = mysql_fetch_array($sqlTotal);
 $persen = round((($banyak * $rowTotal['id']) / 100), 0);
 return $persen;
@@ -35,6 +37,70 @@ $status_data_testing_macet = countData("status_data = 'Data Testing'", "Macet");
 $data_testing_total = $status_data_testing_lancar + $status_data_testing_padat + $status_data_testing_macet;
 
 
+// <?php
+//  public function counttest()
+//     {
+//       $LL = $this->twitterModel->countHSc45('lancar', 'lancar');
+//       $LP = $this->twitterModel->countHSc45('lancar', 'padat');
+//       $LM = $this->twitterModel->countHSc45('lancar', 'macet');
+      
+//       $PL = $this->twitterModel->countHSc45('padat', 'lancar');
+//       $PP = $this->twitterModel->countHSc45('padat', 'padat');
+//       $PM = $this->twitterModel->countHSc45('padat', 'macet');
+      
+//       $ML = $this->twitterModel->countHSc45('macet', 'lancar');
+//       $MP = $this->twitterModel->countHSc45('macet', 'padat');
+//       $MM = $this->twitterModel->countHSc45('macet', 'macet');
+      
+//       //menghitung nilai presisi tiap kondisi
+//       $AL = (($LL + $PL + $ML)/3)*100;
+//       $AP = (($LP + $PP + $MP)/3)*100;
+//       $AM = (($LM + $PM + $MM)/3)*100;
+
+//        //menghitung nilai recall tiap kondisi
+//       $JL = (($LL + $LP + $LM)/3)*100;
+//       $JP = (($PL + $PP + $PM)/3)*100;
+//       $JM = (($ML + $MP + $MM)/3)*100;
+      
+//       $precision = ($AL / ($AP + $AM)) * 100;
+//       $recall = ($JL / ($JP + $JM)) * 100;
+//       $accuracy = (($TP + $TN) / ($TP + $TN + $FP + $FN)) * 100;
+      
+//       // echo $SL;
+//     echo "<table class='table table-bordered'>
+//         <thead>
+//           <tr>
+//             <th class='center'> </th>
+//             <th>Lancar</th>
+//             <th>Padat</th>
+//             <th>Macet</th>
+//           </tr>
+//         </thead>
+//         <tbody>";
+//     echo "<tr><td>Lancar</td>";
+//     echo "<td>" . $LL ."</td>";
+//     echo "<td>" . $PL ."</td>";
+//     echo "<td>" . $ML ."</td>";
+//     echo "</tr>";
+//     echo "<tr><td>Padat</td>";
+//     echo "<td>" . $LP ."</td>";
+//     echo "<td>" . $PP ."</td>";
+//     echo "<td>" . $MP ."</td>";
+//     echo "</tr>";
+//     echo "<tr><td>Macet</td>";
+//     echo "<td>" . $LM ."</td>";
+//     echo "<td>" . $PM ."</td>";
+//     echo "<td>" . $MM ."</td>";
+//     echo "</tr>";
+//     echo "
+//         </tbody>
+//       </table>";
+//       echo "<h3>Precision : " . number_format($precision, 2) . "%";
+//       echo "<h3>Recall : " . number_format($recall ,2) . "%";
+//       echo "<h3>Accuracy : " . number_format($accuracy, 2) . "%";
+//     }
+
+
 
 if (isset($_POST['submit'])) {
     if ($_POST['data'] > 100) {
@@ -50,11 +116,11 @@ if (isset($_POST['submit'])) {
         mysql_query("TRUNCATE pohon_keputusan_id3");
         mysql_query("TRUNCATE rule_id3");
         
-        mysql_query("UPDATE hasil_prediksi SET status_data = ''");
-        mysql_query("UPDATE hasil_prediksi SET status_data = 'Data Training' WHERE kondisi = 'Macet' LIMIT $Macet");
-        mysql_query("UPDATE hasil_prediksi SET status_data = 'Data Training' WHERE kondisi = 'Padat' LIMIT $Padat");
-        mysql_query("UPDATE hasil_prediksi SET status_data = 'Data Training' WHERE kondisi = 'Lancar' LIMIT $Lancar");
-        mysql_query("UPDATE hasil_prediksi SET status_data = 'Data Testing' WHERE status_data = ''");
+        mysql_query("UPDATE data_kemacetan SET status_data = ''");
+        mysql_query("UPDATE data_kemacetan SET status_data = 'Data Training' WHERE kondisi = 'Macet' LIMIT $Macet");
+        mysql_query("UPDATE data_kemacetan SET status_data = 'Data Training' WHERE kondisi = 'Padat' LIMIT $Padat");
+        mysql_query("UPDATE data_kemacetan SET status_data = 'Data Training' WHERE kondisi = 'Lancar' LIMIT $Lancar");
+        mysql_query("UPDATE data_kemacetan SET status_data = 'Data Testing' WHERE status_data = ''");
         echo "<script>alert('Data Training berhasil diupdate!'); document.location.href='partisi.php';</script>\n";
     }
 } ?>
