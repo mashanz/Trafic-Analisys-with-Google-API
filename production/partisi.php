@@ -153,7 +153,7 @@ if (isset($_POST['submit'])) {
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
                    
-                    <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                    <li><a href="login.php"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                   </ul>
                 </li>
               </ul>
@@ -196,13 +196,13 @@ if (isset($_POST['submit'])) {
                               <td>Set Data Training (Semua Data)</td>        
                               <td> : <input name='data' type='text' style='width:30px'> %</td>
                               <td colspan=2>
-                                  <input type=submit name=submit value=Proses>
+                                  <input type=submit class='btn btn-success' name=submit value=Proses>
                               </td>
                           </tr>
 
                       </table>
                       </form>"; ?>
-
+                      </br>
                      <?php echo"
                      <div class='table-responsive'>
                       <table class='table table-striped jambo_table bulk_action'>
