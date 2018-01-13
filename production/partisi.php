@@ -1,6 +1,8 @@
+<?php require_once('Connections/koneksi.php'); ?>
 <?php
 echo "<h2>Data Training &#187; Partisi Data</h2>";
-// include "menu_data_training.php";
+
+//include "menu_data_training.php";
 
 function countData($atribut, $kondisi)
 {
