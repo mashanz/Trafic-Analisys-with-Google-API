@@ -246,9 +246,9 @@ $totalRows_Recordset4 = mysql_num_rows($Recordset4);
                           
                           <select name="lokasi" id="lokasi" class="form-control" required>
                               <option value="">Pilih Lokasi</option>
-                             
+                              <?php do { ?>
                               <option value="<?php echo $row_Recordset3['lokasi']; ?>"><?php echo $row_Recordset3['lokasi']; ?></option>
-                          
+                          <?php } while ($row_Recordset3 = mysql_fetch_assoc($Recordset3)); ?>
                           </select>
                             
                         </div>
@@ -297,7 +297,7 @@ $totalRows_Recordset4 = mysql_num_rows($Recordset4);
                         
                         
                       <tbody>
-                      <?php do { ?>
+                      
                         <tr>
                           
                           <td><?php echo $row_Recordset4['hari']; ?></td>
@@ -306,7 +306,7 @@ $totalRows_Recordset4 = mysql_num_rows($Recordset4);
                           <td><?php echo $row_Recordset4['class_prediksi']; ?></td>
                             
                          <tr>
-                          <?php } while ($row_Recordset4 = mysql_fetch_assoc($Recordset4)); ?>
+                          
                         
                       </tbody>
                     </table>
