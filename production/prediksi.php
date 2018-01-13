@@ -212,7 +212,7 @@ $totalRows_Recordset4 = mysql_num_rows($Recordset4);
                   </div>
                   <div class="x_content">
                     <br />
-                    <form method="POST" name="demo-form2" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+                    <form method="GET" name="demo-form2" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left" action="prediksi.php">
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Hari
                         </label>
