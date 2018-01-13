@@ -2,11 +2,9 @@
 <?php
 echo "";
 
-
-
 function countData($atribut, $kondisi)
 {
-    $sql = mysql_query("SELECT count(id) as id FROM data_kemacetan where $atribut AND kondisi = '$kondisi'");
+    $sql = mysql_query("SELECT count(id) as id FROM hasil_prediksi where $atribut AND kondisi = '$kondisi'");
     while($row = mysql_fetch_array($sql)) {
         $count = "$row[id]";
     }
@@ -14,7 +12,7 @@ function countData($atribut, $kondisi)
 }
 function countPersentase($banyak, $atribut)
 {
-$sqlTotal = mysql_query("SELECT count(id) as id FROM data_kemacetan where $atribut");
+$sqlTotal = mysql_query("SELECT count(id) as id FROM hasil_prediksi where $atribut");
 $rowTotal = mysql_fetch_array($sqlTotal);
 $persen = round((($banyak * $rowTotal['id']) / 100), 0);
 return $persen;
@@ -52,11 +50,11 @@ if (isset($_POST['submit'])) {
         mysql_query("TRUNCATE pohon_keputusan_id3");
         mysql_query("TRUNCATE rule_id3");
         
-        mysql_query("UPDATE data_kemacetan SET status_data = ''");
-        mysql_query("UPDATE data_kemacetan SET status_data = 'Data Training' WHERE kondisi = 'Macet' LIMIT $Macet");
-        mysql_query("UPDATE data_kemacetan SET status_data = 'Data Training' WHERE kondisi = 'Padat' LIMIT $Padat");
-        mysql_query("UPDATE data_kemacetan SET status_data = 'Data Training' WHERE kondisi = 'Lancar' LIMIT $Lancar");
-        mysql_query("UPDATE data_kemacetan SET status_data = 'Data Testing' WHERE status_data = ''");
+        mysql_query("UPDATE hasil_prediksi SET status_data = ''");
+        mysql_query("UPDATE hasil_prediksi SET status_data = 'Data Training' WHERE kondisi = 'Macet' LIMIT $Macet");
+        mysql_query("UPDATE hasil_prediksi SET status_data = 'Data Training' WHERE kondisi = 'Padat' LIMIT $Padat");
+        mysql_query("UPDATE hasil_prediksi SET status_data = 'Data Training' WHERE kondisi = 'Lancar' LIMIT $Lancar");
+        mysql_query("UPDATE hasil_prediksi SET status_data = 'Data Testing' WHERE status_data = ''");
         echo "<script>alert('Data Training berhasil diupdate!'); document.location.href='partisi.php';</script>\n";
     }
 } ?>
