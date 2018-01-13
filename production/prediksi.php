@@ -64,15 +64,15 @@ $Recordset3 = mysql_query($query_Recordset3, $koneksi) or die(mysql_error());
 $row_Recordset3 = mysql_fetch_assoc($Recordset3);
 $totalRows_Recordset3 = mysql_num_rows($Recordset3);
 
-$colname_Recordset4 = "Kamis";
+$colname_Recordset4 = "";
 if (isset($_GET['hari'])) {
   $colname_Recordset4 = $_GET['hari'];
 }
-$colname1_Recordset4 = "17:01-18:00";
+$colname1_Recordset4 = "";
 if (isset($_GET['jam'])) {
   $colname1_Recordset4 = $_GET['jam'];
 }
-$colname2_Recordset4 = "kalibata-pancoran";
+$colname2_Recordset4 = "";
 if (isset($_GET['lokasi'])) {
   $colname2_Recordset4 = $_GET['lokasi'];
 }
@@ -246,9 +246,9 @@ $totalRows_Recordset4 = mysql_num_rows($Recordset4);
                           
                           <select name="lokasi" id="lokasi" class="form-control" required>
                               <option value="">Pilih Lokasi</option>
-                              <?php do { ?>
+                             
                               <option value="<?php echo $row_Recordset3['lokasi']; ?>"><?php echo $row_Recordset3['lokasi']; ?></option>
-                          <?php } while ($row_Recordset3 = mysql_fetch_assoc($Recordset3)); ?>
+                          
                           </select>
                             
                         </div>
