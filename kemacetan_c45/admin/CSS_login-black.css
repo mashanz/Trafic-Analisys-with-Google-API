@@ -1,0 +1,142 @@
+* {
+	margin:0;
+	padding:0;
+}
+body {
+	background-color:#FFF;
+	color: #5EA0DD;
+	font-family:Verdana,Tahoma, Arial,Sans-serif;
+	font-size:14px;
+}
+a{
+	text-decoration:none;
+	background-color: transparent;
+	color:#3A62B7;
+	cursor:pointer;
+}
+a:link,a:visited{	
+	background-color: transparent;
+	color:#3A62B7;
+}
+a:hover,a:active{	
+	background-color: transparent;
+	color:#8C2026;	
+}
+form.fl{
+/*	margin-top:100px; */
+}
+table.tb{	
+	-moz-border-radius: 36px 36px 20px 20px;
+	border:1px solid #96C3F8;	
+	background:transparent left top no-repeat;	
+	margin:100px auto 0;
+	width:400px;
+/*
+	background:transparent url(../images/bgTabel.jpg) left top no-repeat;	
+	-moz-border-radius-topleft:36px;
+	-moz-border-radius-topright:36px;
+	opacity: .3;
+*/
+}
+table.tb span.th{
+	font-size:1.1em;
+	font-weight:bold;
+}
+table.tb td{
+	padding:3px;
+}
+table.tb td.caption{
+	padding:5px 3px;
+}
+table.tb td.header{
+	background:transparent;
+/*	-moz-border-radius-topleft:20px;
+	-moz-border-radius-topright:20px;
+	background:transparent url(../images/bgTableHeader2.png) left top repeat-x;
+	color:#4F4D4A; */
+	padding:8px;
+	text-align:center;
+	font-family:verdana;
+	letter-spacing:1px;
+	font-weight:bold;
+}
+#info{
+	background:transparent url(../images/sopPasswd.png) center 2px no-repeat;
+	border: 1px solid #96C3F8;
+	top:0px;
+	left:0px;
+	width:99.9%;
+	height:0%;
+	position:absolute;
+	z-index: 99;
+	cursor:pointer;
+/*	opacity:0.8; */
+}
+#footer{
+	background:transparent center 2px no-repeat;
+	color:#86a3d8;
+	padding-top:80px;
+}
+#footer p{
+	padding:2px 0;
+	font-size:0.75em;
+	text-align:center;
+}
+iframe.AJAX_Target{
+	border:0px solid #fff;
+	height:0;
+	width:0;	
+}
+.right{
+	text-align:right;
+}
+input[type="text"]:focus, input[type="password"]:focus, textarea:focus {
+	-moz-box-shadow: 0 0 8px rgba(82, 168, 236, 0.5);
+	border-color: rgba(82, 168, 236, 0.75) !important;
+	outline: medium none;
+}
+input{
+	-moz-border-radius:5px 5px 5px 5px;
+	border:1px solid #CCCCCC;
+	border:1px solid #5EA0DD;
+	padding:3px;
+	letter-spacing:1px;
+	color:#5EA0DD;	
+}
+select,option{
+	padding:1px;
+	letter-spacing:1px;
+	color:#5EA0DD;	
+}
+button{
+	cursor:pointer;
+	padding:2px 0;
+	color:#5EA0DD;	
+}
+button img{
+	vertical-align:middle;
+}
+
+button span.txt{
+	font-weight:bold;
+	vertical-align:middle;
+}
+span.light{
+	color:#D72E2E;	
+	font-size:1.08em;
+}
+.forget{
+	color:#000;
+	font-size:0.7em;	
+}
+a{
+	color:#B24D4D;
+	font-weight:bold;
+}
+a:link,a:visited{
+	color:#B24D4D;	
+}
+a:active,a:hover{
+	color:#EB9309;	
+	text-decoration:none;
+}
