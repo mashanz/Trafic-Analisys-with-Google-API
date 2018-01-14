@@ -132,8 +132,8 @@
     echo "<h2>C45 &#187; Perhitungan C4.5</h2>";
     //include "menu_c45.php";
     echo " <p>Opsi: <a href=./aksi.php?module=c45&act=hapus_data_iterasi>Hapus Semua Data</a></p>
-           <table bgcolor='#00CCFF' border='1' cellspacing='0' cellspading='0'>
-           <tr>
+           <table class='table table-striped jambo_table bulk_action'>
+           <tr class='headings'>
                <th>No</th>
                <th>Atribut Gain Ratio Max</th>
                <th>Atribut</th>

@@ -84,7 +84,7 @@
         top: 10px;
         left: 25%;
         z-index: 5;
-        background-color: #4286f4;
+        background-color: #fff;
         padding: 5px;
         border: 1px solid #c2c2c2;
         text-align: center;

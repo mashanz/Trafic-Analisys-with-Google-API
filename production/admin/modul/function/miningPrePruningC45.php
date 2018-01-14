@@ -19,7 +19,7 @@ function lihatPerhitungan() {
 	echo "<br><font face='Courier New' size='2'>";
 	get_subfolder('0', 0);
 	echo "</font><br>";
-        echo " <table bgcolor='#00CCFF' border='1' cellspacing='0' cellspading='0'>
+        echo " <table class='table table-striped jambo_table bulk_action'>
            <tr>
                <th>No</th>
                <th>Atribut</th>

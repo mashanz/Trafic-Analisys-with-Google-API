@@ -190,7 +190,9 @@ $totalRows_Recordset1 = mysql_num_rows($Recordset1);
                           <td><?php echo $row_Recordset1['jam']; ?></td>
                           <td><?php echo $row_Recordset1['lokasi']; ?></td>
                           <td><?php echo $row_Recordset1['kondisi']; ?></td>
-                          <td><a href="updatedata.php?id=<?php echo $row_Recordset1['id']; ?>"><i class="fa fa-pencil" aria-hidden="true"></i> </a <a href="deletedata.php?id=<?php echo $row_Recordset1['id']; ?>"><i class="fa fa-trash" aria-hidden="true"></i></i></a></td>
+                          <td>
+                            <a href="updatedata.php?id=<?php echo $row_Recordset1['id']; ?>"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                            <a href="deletedata.php?id=<?php echo $row_Recordset1['id']; ?>"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
                         </tr>
                          <?php } while ($row_Recordset1 = mysql_fetch_assoc($Recordset1)); ?>
                       </tbody>
