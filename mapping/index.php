@@ -69,7 +69,7 @@
   <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-    <title>Directions service</title>
+    <title>KONDISI LALIN</title>
     <style>
       #map {
         height: 100%;
