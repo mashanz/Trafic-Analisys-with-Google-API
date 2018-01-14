@@ -47,19 +47,21 @@
   $row_Recordset3 = mysql_fetch_assoc($Recordset3);
   $totalRows_Recordset3 = mysql_num_rows($Recordset3);
 
-  $colname_Recordset4 = "";
+  $colname_Recordset4 = "Sabtu";
   if (isset($_GET['hari'])) $colname_Recordset4 = $_GET['hari'];
 
-  $colname1_Recordset4 = "";
+  $colname1_Recordset4 = "00:01-01:00";
   if (isset($_GET['jam'])) $colname1_Recordset4 = $_GET['jam'];
 
-  $colname2_Recordset4 = "";
+  $colname2_Recordset4 = "pondok indah-lebak bulus";
   if (isset($_GET['lokasi'])) $colname2_Recordset4 = $_GET['lokasi'];
 
-  $query_Recordset4 = sprintf("SELECT * FROM hasil_prediksi WHERE hari = %s AND jam= %s  AND lokasi=%s", GetSQLValueString($colname_Recordset4, "text"),GetSQLValueString($colname1_Recordset4, "text"),GetSQLValueString($colname2_Recordset4, "text"));
-  $Recordset4 = mysql_query($query_Recordset4, $koneksi) or die(mysql_error());
-  $row_Recordset4 = mysql_fetch_assoc($Recordset4);
-  $totalRows_Recordset4 = mysql_num_rows($Recordset4);
+
+  // EXAMPLE DATA GET: index.php?hari=Kamis&jam=17:01-18:00&lokasi=tanah%20abang-jl%20mas%20mansyur
+  //$query_Recordset4 = sprintf("SELECT * FROM hasil_prediksi WHERE hari = %s AND jam= %s  AND lokasi=%s", GetSQLValueString($colname_Recordset4, "text"),GetSQLValueString($colname1_Recordset4, "text"),GetSQLValueString($colname2_Recordset4, "text"));
+  //$Recordset4 = mysql_query($query_Recordset4, $koneksi) or die(mysql_error());
+  //$row_Recordset4 = mysql_fetch_assoc($Recordset4);
+  //$totalRows_Recordset4 = mysql_num_rows($Recordset4);
 ?>
 
 <!DOCTYPE html>
@@ -93,27 +95,38 @@
     </style>
   </head>
   <body>
+
+    <?php 
+      $query_Recordset4 = sprintf("SELECT * FROM hasil_prediksi WHERE hari=%s", GetSQLValueString($colname_Recordset4, "text"));
+      $Recordset4 = mysql_query($query_Recordset4, $koneksi) or die(mysql_error());
+      $row_Recordset4 = mysql_fetch_assoc($Recordset4);
+      $totalRows_Recordset4 = mysql_num_rows($Recordset4);
+
+      echo $row_Recordset4['class_prediksi']; 
+    ?>
     <div id="floating-panel">
     <b>Lokasi: </b>
     <select id="start">
       <option value="0,0"> - </option>
       <?php do { ?>
-        <option value="<?php echo $row_Recordset3['start']; ?>"><?php echo $row_Recordset3['lokasi']; ?></option>
+        <option value="<?php echo $row_Recordset3['ruas']; ?>" <?php if(GetSQLValueString($row_Recordset3['ruas'], "text")==GetSQLValueString($colname2_Recordset4, "text")) echo 'selected'?> ><?php echo $row_Recordset3['lokasi']; ?></option>
       <?php } while ($row_Recordset3 = mysql_fetch_assoc($Recordset3)); ?>
     </select>
 
     <b>Hari: </b>
     <select id="hari">
       <?php do { ?>
-        <option value="<?php echo $row_Recordset1['hari']; ?>"><?php echo $row_Recordset1['hari']; ?></option>
+        <option value="<?php echo $row_Recordset1['hari']; ?>" <?php if(GetSQLValueString($row_Recordset1['hari'], "text")==GetSQLValueString($colname_Recordset4, "text")) echo 'selected'?> ><?php echo $row_Recordset1['hari']; ?></option>
       <?php } while ($row_Recordset1 = mysql_fetch_assoc($Recordset1)); ?>
     </select>
     <b>Jam: </b>
     <select id="jam">
       <?php do { ?>
-        <option value="<?php echo $row_Recordset2['waktu']; ?>"><?php echo $row_Recordset2['waktu']; ?></option>
+        <option value="<?php echo $row_Recordset2['waktu']; ?>" <?php if(GetSQLValueString($row_Recordset2['waktu'], "text")==GetSQLValueString($colname1_Recordset4, "text")) echo 'selected'?> ><?php echo $row_Recordset2['waktu']; ?></option>
       <?php } while ($row_Recordset2 = mysql_fetch_assoc($Recordset2)); ?>
     </select>
+
+    <button id="submisi">submit</button>
 
     </div>
 
@@ -123,6 +136,7 @@
       var directionsDisplay;
       var map;
       var onChangeHandler;
+      var onChangeHandler2;
       var styledMapType
 
       function initMap() {
@@ -238,27 +252,74 @@
             ],
             {name: 'Suhartina Hajrahnur'});
 
+          map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 7,
+            center: {lat: 41.85, lng: -87.65},
+            mapTypeControlOptions: {
+              mapTypeIds: ['styled_map']
+            }
+          });
+
+          map.mapTypes.set('styled_map', styledMapType);
+          map.setMapTypeId('styled_map');
 
         onChangeHandler = function() {
-        map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 7,
-          center: {lat: 41.85, lng: -87.65},
-          mapTypeControlOptions: {
-            mapTypeIds: ['styled_map']
-          }
-        });
+          map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 7,
+            center: {lat: 41.85, lng: -87.65},
+            mapTypeControlOptions: {
+              mapTypeIds: ['styled_map']
+            }
+          });
 
-        map.mapTypes.set('styled_map', styledMapType);
-        map.setMapTypeId('styled_map');
+          map.mapTypes.set('styled_map', styledMapType);
+          map.setMapTypeId('styled_map');
 
-        <?php 
-          $kondisi = $row_Recordset4['class_prediksi'];;
+          document.location.href='index.php?hari='+document.getElementById('hari').value+'&jam='+document.getElementById('jam').value+'&lokasi='+document.getElementById('start').value;
+          
+          <?php 
+            $kondisi = $row_Recordset4['class_prediksi'];
 
-          $query_Recordset6 = sprintf("SELECT * FROM kondisi WHERE kondsi=%s", GetSQLValueString($kondisi, "text"));
-          $Recordset6 = mysql_query($query_Recordset6, $koneksi) or die(mysql_error());
-          $row_Recordset6 = mysql_fetch_assoc($Recordset6);
-          $totalRows_Recordset6 = mysql_num_rows($Recordset6);
-        ?>
+            $query_Recordset6 = sprintf("SELECT * FROM kondisi WHERE kondsi=%s", GetSQLValueString($kondisi, "text"));
+            $Recordset6 = mysql_query($query_Recordset6, $koneksi) or die(mysql_error());
+            $row_Recordset6 = mysql_fetch_assoc($Recordset6);
+            $totalRows_Recordset6 = mysql_num_rows($Recordset6);
+          ?>
+
+          directionsService = new google.maps.DirectionsService;
+          directionsDisplay = new google.maps.DirectionsRenderer({
+            polylineOptions: {
+              strokeColor: '<?php echo $row_Recordset6['warna']; ?>',
+              strokeOpacity: 0.75,
+              strokeWeight: 5
+          }});
+          
+          directionsDisplay.setMap(map);
+          calculateAndDisplayRoute(directionsService, directionsDisplay);
+        };
+
+        onChangeHandler2 = function() {
+          map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 7,
+            center: {lat: 41.85, lng: -87.65},
+            mapTypeControlOptions: {
+              mapTypeIds: ['styled_map']
+            }
+          });
+
+          map.mapTypes.set('styled_map', styledMapType);
+          map.setMapTypeId('styled_map');
+
+          // document.location.href='index.php?hari='+document.getElementById('hari').value+'&jam='+document.getElementById('jam').value+'&lokasi='+document.getElementById('start').value;
+          
+          <?php 
+            $kondisi = $row_Recordset4['class_prediksi'];
+
+            $query_Recordset6 = sprintf("SELECT * FROM kondisi WHERE kondsi=%s", GetSQLValueString($kondisi, "text"));
+            $Recordset6 = mysql_query($query_Recordset6, $koneksi) or die(mysql_error());
+            $row_Recordset6 = mysql_fetch_assoc($Recordset6);
+            $totalRows_Recordset6 = mysql_num_rows($Recordset6);
+          ?>
 
           directionsService = new google.maps.DirectionsService;
           directionsDisplay = new google.maps.DirectionsRenderer({
@@ -275,21 +336,19 @@
         document.getElementById('start').addEventListener('change', onChangeHandler);
         document.getElementById('hari').addEventListener('change', onChangeHandler);
         document.getElementById('jam').addEventListener('change', onChangeHandler);
-        document.getElementById('kondisi').addEventListener('change',onChangeHandler);
+        document.getElementById('submisi').addEventListener('click',onChangeHandler2);
       }
 
       function calculateAndDisplayRoute(directionsService, directionsDisplay) {
-
-      // get lokasi end berdasarkan GET start
-      <?php 
-        $query_Recordset5 = sprintf("SELECT * FROM lokasi WHERE ruas=%s", GetSQLValueString($colname2_Recordset4, "text"));
-        $Recordset5 = mysql_query($query_Recordset5, $koneksi) or die(mysql_error());
-        $row_Recordset5 = mysql_fetch_assoc($Recordset5);
-        $totalRows_Recordset5 = mysql_num_rows($Recordset5);
-      ?>
-
+        // get lokasi end berdasarkan GET start
+        <?php 
+          $query_Recordset5 = sprintf("SELECT * FROM lokasi WHERE ruas=%s", GetSQLValueString($colname2_Recordset4, "text"));
+          $Recordset5 = mysql_query($query_Recordset5, $koneksi) or die(mysql_error());
+          $row_Recordset5 = mysql_fetch_assoc($Recordset5);
+          $totalRows_Recordset5 = mysql_num_rows($Recordset5);
+        ?>
         directionsService.route({
-          origin: document.getElementById('start').value,
+          origin: '<?php echo $row_Recordset5['start']; ?>',
           destination: '<?php echo $row_Recordset5['end']; ?>',
           travelMode: 'DRIVING'
         }, function(response, status) {
