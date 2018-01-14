@@ -31,10 +31,6 @@
   }
 
   mysql_select_db($database_koneksi, $koneksi);
-  //$query_Recordset1 = "SELECT * FROM hari";
-  //$query_limit_Recordset1 = sprintf("%s LIMIT %d, %d", $query_Recordset1, $startRow_Recordset1, $maxRows_Recordset1);
-  //$Recordset1 = mysql_query($query_limit_Recordset1, $koneksi) or die(mysql_error());
-  //$row_Recordset1 = mysql_fetch_assoc($Recordset1);
 
   $query_Recordset1 = "SELECT * FROM hari";
   $Recordset1 = mysql_query($query_Recordset1, $koneksi) or die(mysql_error());
@@ -98,8 +94,9 @@
   </head>
   <body>
     <div id="floating-panel">
-    <b>Start: </b>
+    <b>Lokasi: </b>
     <select id="start">
+      <option value="0,0"> - </option>
       <?php do { ?>
         <option value="<?php echo $row_Recordset3['start']; ?>"><?php echo $row_Recordset3['lokasi']; ?></option>
       <?php } while ($row_Recordset3 = mysql_fetch_assoc($Recordset3)); ?>
@@ -125,12 +122,7 @@
         <option value="<?php echo $row_Recordset2['waktu']; ?>"><?php echo $row_Recordset2['waktu']; ?></option>
       <?php } while ($row_Recordset2 = mysql_fetch_assoc($Recordset2)); ?>
     </select>
-    <b>Kondisi: </b>
-    <select id="kondisi">
-      <option value="green">Lancar</option>
-      <option value="yellow">Padat</option>
-      <option value="red">Macet</option>
-    </select>
+
     </div>
 
     <div id="map"></div>
@@ -252,7 +244,7 @@
             stylers: [{color: '#92998d'}]
           }
             ],
-            {name: 'Styled Map'});
+            {name: 'Suhartina Hajrahnur'});
 
 
         onChangeHandler = function() {
@@ -260,8 +252,7 @@
           zoom: 7,
           center: {lat: 41.85, lng: -87.65},
           mapTypeControlOptions: {
-            mapTypeIds: ['roadmap', 'satellite', 'hybrid', 'terrain',
-                    'styled_map']
+            mapTypeIds: ['styled_map']
           }
         });
 
@@ -271,7 +262,7 @@
           directionsService = new google.maps.DirectionsService;
           directionsDisplay = new google.maps.DirectionsRenderer({
             polylineOptions: {
-              strokeColor: document.getElementById('kondisi').value,
+              strokeColor: 'green',
               strokeOpacity: 0.75,
               strokeWeight: 5
           }});
