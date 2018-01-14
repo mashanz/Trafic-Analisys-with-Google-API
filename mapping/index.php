@@ -112,13 +112,7 @@
     ?>
 
     </select>
-    <b>End: </b>
-    <select id="end">
-      <?php do { ?>
-        <option value="<?php echo $row_Recordset3['end']; ?>"><?php echo $row_Recordset3['ruas']; ?></option>
-      <?php } while ($row_Recordset3 = mysql_fetch_assoc($Recordset3)); ?>
-      
-    </select>
+
     <b>Hari: </b>
     <select id="hari">
       <?php do { ?>
@@ -287,16 +281,23 @@
         };
 
         document.getElementById('start').addEventListener('change', onChangeHandler);
-        document.getElementById('end').addEventListener('change', onChangeHandler);
         document.getElementById('hari').addEventListener('change', onChangeHandler);
         document.getElementById('jam').addEventListener('change', onChangeHandler);
         document.getElementById('kondisi').addEventListener('change',onChangeHandler);
       }
 
       function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+
+      <?php 
+        $query_Recordset5 = "SELECT * FROM lokasi";
+        $Recordset5 = mysql_query($query_Recordset5, $koneksi) or die(mysql_error());
+        $row_Recordset5 = mysql_fetch_assoc($Recordset5);
+        $totalRows_Recordset5 = mysql_num_rows($Recordset5);
+      ?>
+
         directionsService.route({
           origin: document.getElementById('start').value,
-          destination: document.getElementById('end').value,
+          destination: '<?php echo $row_Recordset5['end']; ?>',
           travelMode: 'DRIVING'
         }, function(response, status) {
           if (status === 'OK') {
