@@ -92,19 +92,28 @@
         line-height: 30px;
         padding-left: 10px;
       }
+      green{
+        background-color: #0A0;
+      }
+      yellow{
+        background-color: #FFFF00;
+      }
+      red{
+        background-color: #f00;
+      }
     </style>
   </head>
   <body>
 
     <?php 
-      $query_Recordset4 = sprintf("SELECT * FROM hasil_prediksi WHERE hari=%s", GetSQLValueString($colname_Recordset4, "text"));
+      $query_Recordset4 = sprintf("SELECT * FROM hasil_prediksi WHERE hari=%s AND jam=%s AND lokasi=%s", GetSQLValueString($colname_Recordset4, "text"), GetSQLValueString($colname1_Recordset4, "text"), GetSQLValueString($colname2_Recordset4, "text"));
       $Recordset4 = mysql_query($query_Recordset4, $koneksi) or die(mysql_error());
       $row_Recordset4 = mysql_fetch_assoc($Recordset4);
       $totalRows_Recordset4 = mysql_num_rows($Recordset4);
-
-      echo $row_Recordset4['class_prediksi']; 
     ?>
     <div id="floating-panel">
+    <b>Keterangan: <green>LANCAR</green>, <yellow>PADAT</yellow>, <red>MACET</red></b>
+    <br>
     <b>Lokasi: </b>
     <select id="start">
       <option value="0,0"> - </option>
@@ -127,6 +136,15 @@
     </select>
 
     <button id="submisi">submit</button>
+
+    <br>
+
+    <?php 
+      echo "<b>".$colname_Recordset4."&nbsp;";
+      echo $colname1_Recordset4."&nbsp;";
+      echo $colname2_Recordset4."&nbsp;&nbsp;&nbsp;&nbsp;";
+      echo " KONDISI: ".$row_Recordset4['class_prediksi']."</b>";
+    ?>
 
     </div>
 
@@ -309,8 +327,6 @@
 
           map.mapTypes.set('styled_map', styledMapType);
           map.setMapTypeId('styled_map');
-
-          // document.location.href='index.php?hari='+document.getElementById('hari').value+'&jam='+document.getElementById('jam').value+'&lokasi='+document.getElementById('start').value;
           
           <?php 
             $kondisi = $row_Recordset4['class_prediksi'];
