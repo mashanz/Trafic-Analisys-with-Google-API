@@ -100,14 +100,6 @@
       <?php do { ?>
         <option value="<?php echo $row_Recordset3['start']; ?>"><?php echo $row_Recordset3['lokasi']; ?></option>
       <?php } while ($row_Recordset3 = mysql_fetch_assoc($Recordset3)); ?>
-
-    <?php
-      $query_Recordset3 = "SELECT * FROM lokasi";
-      $Recordset3 = mysql_query($query_Recordset3, $koneksi) or die(mysql_error());
-      $row_Recordset3 = mysql_fetch_assoc($Recordset3);
-      $totalRows_Recordset3 = mysql_num_rows($Recordset3);
-    ?>
-
     </select>
 
     <b>Hari: </b>
@@ -259,10 +251,17 @@
         map.mapTypes.set('styled_map', styledMapType);
         map.setMapTypeId('styled_map');
 
+        <?php 
+          $query_Recordset6 = sprintf("SELECT * FROM kondisi WHERE kondsi=%s", GetSQLValueString($_GET['kondisi'], "text"));
+          $Recordset6 = mysql_query($query_Recordset6, $koneksi) or die(mysql_error());
+          $row_Recordset6 = mysql_fetch_assoc($Recordset6);
+          $totalRows_Recordset6 = mysql_num_rows($Recordset6);
+        ?>
+
           directionsService = new google.maps.DirectionsService;
           directionsDisplay = new google.maps.DirectionsRenderer({
             polylineOptions: {
-              strokeColor: 'green',
+              strokeColor: '<?php echo $row_Recordset6['warna']; ?>',
               strokeOpacity: 0.75,
               strokeWeight: 5
           }});
@@ -279,8 +278,9 @@
 
       function calculateAndDisplayRoute(directionsService, directionsDisplay) {
 
+      // get lokasi end berdasarkan GET start
       <?php 
-        $query_Recordset5 = "SELECT * FROM lokasi";
+        $query_Recordset5 = sprintf("SELECT * FROM lokasi WHERE ruas=%s", GetSQLValueString($colname2_Recordset4, "text"));
         $Recordset5 = mysql_query($query_Recordset5, $koneksi) or die(mysql_error());
         $row_Recordset5 = mysql_fetch_assoc($Recordset5);
         $totalRows_Recordset5 = mysql_num_rows($Recordset5);
