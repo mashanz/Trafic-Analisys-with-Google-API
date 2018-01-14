@@ -59,7 +59,7 @@
                     <ul class="nav child_menu">
                      <li><a href="perhitungan.php">Perhitungan C45</a></li>
                      <li><a href="mining.php">Proses Mining</a></li>
-                     <li><a href="perhitungan.php?module=c45&act=pohon_keputusan">Pohon Keputusan</a></li>
+                     <li><a href="keputusan.php">Pohon Keputusan</a></li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa fa-flask"></i>Pengujian <span class="fa fa-chevron-down"></span></a>

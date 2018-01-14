@@ -2,11 +2,8 @@
 <?php
 echo "";
 
-
-
-function countData($atribut, $kondisi)
-{
-    $sql = mysql_query("SELECT count(id) as id FROM data_kemacetan where $atribut AND kondisi = '$kondisi'");
+function countData($atribut, $kondisi){
+    $sql = mysql_query("SELECT count(id) as id FROM hasil_prediksi where $atribut AND class_asli = '$kondisi'");
     while($row = mysql_fetch_array($sql)) {
         $count = "$row[id]";
     }
@@ -14,7 +11,7 @@ function countData($atribut, $kondisi)
 }
 function countPersentase($banyak, $atribut)
 {
-$sqlTotal = mysql_query("SELECT count(id) as id FROM data_kemacetan where $atribut");
+$sqlTotal = mysql_query("SELECT count(id) as id FROM hasil_prediksi where $atribut");
 $rowTotal = mysql_fetch_array($sqlTotal);
 $persen = round((($banyak * $rowTotal['id']) / 100), 0);
 return $persen;
@@ -35,7 +32,6 @@ $status_data_testing_lancar = countData("status_data = 'Data Testing'", "Lancar"
 $status_data_testing_padat = countData("status_data = 'Data Testing'", "Padat");
 $status_data_testing_macet = countData("status_data = 'Data Testing'", "Macet");
 $data_testing_total = $status_data_testing_lancar + $status_data_testing_padat + $status_data_testing_macet;
-
 
 // <?php
 //  public function counttest()
@@ -62,7 +58,7 @@ $data_testing_total = $status_data_testing_lancar + $status_data_testing_padat +
 //       $JP = (($PL + $PP + $PM)/3)*100;
 //       $JM = (($ML + $MP + $MM)/3)*100;
       
-//       $precision = ($AL / ($AP + $AM)) * 100;
+//       $precision = ($AL + ($AP + $AM)) * 100;
 //       $recall = ($JL / ($JP + $JM)) * 100;
 //       $accuracy = (($TP + $TN) / ($TP + $TN + $FP + $FN)) * 100;
       
@@ -106,9 +102,9 @@ if (isset($_POST['submit'])) {
     if ($_POST['data'] > 100) {
         echo "<p>Data Kurusng dimasukkan harus lebih kecil dari 100!<p>";
     } else {
-        $Macet = countPersentase($_POST['data'], "kondisi = 'Macet'");
-        $Padat = countPersentase($_POST['data'], "kondisi = 'Padat'");
-        $Lancar = countPersentase($_POST['data'], "kondisi = 'Lancar'");
+        $Macet = countPersentase($_POST['data'], "class_asli = 'Macet'");
+        $Padat = countPersentase($_POST['data'], "class_asli = 'Padat'");
+        $Lancar = countPersentase($_POST['data'], "class_asli = 'Lancar'");
 
         mysql_query("TRUNCATE data_keputusan");
         mysql_query("TRUNCATE data_keputusan_kinerja");
@@ -116,11 +112,11 @@ if (isset($_POST['submit'])) {
         mysql_query("TRUNCATE pohon_keputusan_id3");
         mysql_query("TRUNCATE rule_id3");
         
-        mysql_query("UPDATE data_kemacetan SET status_data = ''");
-        mysql_query("UPDATE data_kemacetan SET status_data = 'Data Training' WHERE kondisi = 'Macet' LIMIT $Macet");
-        mysql_query("UPDATE data_kemacetan SET status_data = 'Data Training' WHERE kondisi = 'Padat' LIMIT $Padat");
-        mysql_query("UPDATE data_kemacetan SET status_data = 'Data Training' WHERE kondisi = 'Lancar' LIMIT $Lancar");
-        mysql_query("UPDATE data_kemacetan SET status_data = 'Data Testing' WHERE status_data = ''");
+        mysql_query("UPDATE hasil_prediksi SET status_data = ''");
+        mysql_query("UPDATE hasil_prediksi SET status_data = 'Data Training' WHERE class_asli = 'Macet' LIMIT $Macet");
+        mysql_query("UPDATE hasil_prediksi SET status_data = 'Data Training' WHERE class_asli = 'Padat' LIMIT $Padat");
+        mysql_query("UPDATE hasil_prediksi SET status_data = 'Data Training' WHERE class_asli = 'Lancar' LIMIT $Lancar");
+        mysql_query("UPDATE hasil_prediksi SET status_data = 'Data Testing' WHERE status_data = ''");
         echo "<script>alert('Data Training berhasil diupdate!'); document.location.href='partisi.php';</script>\n";
     }
 } ?>
