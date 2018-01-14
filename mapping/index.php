@@ -252,7 +252,9 @@
         map.setMapTypeId('styled_map');
 
         <?php 
-          $query_Recordset6 = sprintf("SELECT * FROM kondisi WHERE kondsi=%s", GetSQLValueString($_GET['kondisi'], "text"));
+          $kondisi = $row_Recordset4['class_prediksi'];;
+
+          $query_Recordset6 = sprintf("SELECT * FROM kondisi WHERE kondsi=%s", GetSQLValueString($kondisi, "text"));
           $Recordset6 = mysql_query($query_Recordset6, $koneksi) or die(mysql_error());
           $row_Recordset6 = mysql_fetch_assoc($Recordset6);
           $totalRows_Recordset6 = mysql_num_rows($Recordset6);
