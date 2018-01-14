@@ -1,3 +1,71 @@
+<?php require_once('../production/Connections/koneksi.php'); ?>
+<?php
+  if (!function_exists("GetSQLValueString")) {
+    function GetSQLValueString($theValue, $theType, $theDefinedValue = "", $theNotDefinedValue = "") {
+      if (PHP_VERSION < 6) {
+        $theValue = get_magic_quotes_gpc() ? stripslashes($theValue) : $theValue;
+      }
+
+      $theValue = function_exists("mysql_real_escape_string") ? mysql_real_escape_string($theValue) : mysql_escape_string($theValue);
+
+      switch ($theType) {
+        case "text":
+          $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
+          break;    
+        case "long":
+        case "int":
+          $theValue = ($theValue != "") ? intval($theValue) : "NULL";
+          break;
+        case "double":
+          $theValue = ($theValue != "") ? doubleval($theValue) : "NULL";
+          break;
+        case "date":
+          $theValue = ($theValue != "") ? "'" . $theValue . "'" : "NULL";
+          break;
+        case "defined":
+          $theValue = ($theValue != "") ? $theDefinedValue : $theNotDefinedValue;
+          break;
+      }
+      return $theValue;
+    }
+  }
+
+  mysql_select_db($database_koneksi, $koneksi);
+  //$query_Recordset1 = "SELECT * FROM hari";
+  //$query_limit_Recordset1 = sprintf("%s LIMIT %d, %d", $query_Recordset1, $startRow_Recordset1, $maxRows_Recordset1);
+  //$Recordset1 = mysql_query($query_limit_Recordset1, $koneksi) or die(mysql_error());
+  //$row_Recordset1 = mysql_fetch_assoc($Recordset1);
+
+  $query_Recordset1 = "SELECT * FROM hari";
+  $Recordset1 = mysql_query($query_Recordset1, $koneksi) or die(mysql_error());
+  $row_Recordset1 = mysql_fetch_assoc($Recordset1);
+  $totalRows_Recordset1 = mysql_num_rows($Recordset1);
+
+  $query_Recordset2 = "SELECT * FROM jam";
+  $Recordset2 = mysql_query($query_Recordset2, $koneksi) or die(mysql_error());
+  $row_Recordset2 = mysql_fetch_assoc($Recordset2);
+  $totalRows_Recordset2 = mysql_num_rows($Recordset2);
+
+  $query_Recordset3 = "SELECT * FROM lokasi";
+  $Recordset3 = mysql_query($query_Recordset3, $koneksi) or die(mysql_error());
+  $row_Recordset3 = mysql_fetch_assoc($Recordset3);
+  $totalRows_Recordset3 = mysql_num_rows($Recordset3);
+
+  $colname_Recordset4 = "";
+  if (isset($_GET['hari'])) $colname_Recordset4 = $_GET['hari'];
+
+  $colname1_Recordset4 = "";
+  if (isset($_GET['jam'])) $colname1_Recordset4 = $_GET['jam'];
+
+  $colname2_Recordset4 = "";
+  if (isset($_GET['lokasi'])) $colname2_Recordset4 = $_GET['lokasi'];
+
+  $query_Recordset4 = sprintf("SELECT * FROM hasil_prediksi WHERE hari = %s AND jam= %s  AND lokasi=%s", GetSQLValueString($colname_Recordset4, "text"),GetSQLValueString($colname1_Recordset4, "text"),GetSQLValueString($colname2_Recordset4, "text"));
+  $Recordset4 = mysql_query($query_Recordset4, $koneksi) or die(mysql_error());
+  $row_Recordset4 = mysql_fetch_assoc($Recordset4);
+  $totalRows_Recordset4 = mysql_num_rows($Recordset4);
+?>
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -32,63 +100,36 @@
     <div id="floating-panel">
     <b>Start: </b>
     <select id="start">
-      <option value="chicago, il">Chicago</option>
-      <option value="st louis, mo">St Louis</option>
-      <option value="joplin, mo">Joplin, MO</option>
-      <option value="oklahoma city, ok">Oklahoma City</option>
-      <option value="amarillo, tx">Amarillo</option>
-      <option value="gallup, nm">Gallup, NM</option>
-      <option value="flagstaff, az">Flagstaff, AZ</option>
-      <option value="winona, az">Winona</option>
-      <option value="kingman, az">Kingman</option>
-      <option value="barstow, ca">Barstow</option>
-      <option value="san bernardino, ca">San Bernardino</option>
-      <option value="los angeles, ca">Los Angeles</option>
+      <?php do { ?>
+        <option value="<?php echo $row_Recordset3['start']; ?>"><?php echo $row_Recordset3['lokasi']; ?></option>
+      <?php } while ($row_Recordset3 = mysql_fetch_assoc($Recordset3)); ?>
+
+    <?php
+      $query_Recordset3 = "SELECT * FROM lokasi";
+      $Recordset3 = mysql_query($query_Recordset3, $koneksi) or die(mysql_error());
+      $row_Recordset3 = mysql_fetch_assoc($Recordset3);
+      $totalRows_Recordset3 = mysql_num_rows($Recordset3);
+    ?>
+
     </select>
     <b>End: </b>
     <select id="end">
-      <option value="chicago, il">Chicago</option>
-      <option value="st louis, mo">St Louis</option>
-      <option value="joplin, mo">Joplin, MO</option>
-      <option value="oklahoma city, ok">Oklahoma City</option>
-      <option value="amarillo, tx">Amarillo</option>
-      <option value="gallup, nm">Gallup, NM</option>
-      <option value="flagstaff, az">Flagstaff, AZ</option>
-      <option value="winona, az">Winona</option>
-      <option value="kingman, az">Kingman</option>
-      <option value="barstow, ca">Barstow</option>
-      <option value="san bernardino, ca">San Bernardino</option>
-      <option value="los angeles, ca">Los Angeles</option>
+      <?php do { ?>
+        <option value="<?php echo $row_Recordset3['end']; ?>"><?php echo $row_Recordset3['ruas']; ?></option>
+      <?php } while ($row_Recordset3 = mysql_fetch_assoc($Recordset3)); ?>
+      
     </select>
     <b>Hari: </b>
     <select id="hari">
-      <option value="chicago, il">Chicago</option>
-      <option value="st louis, mo">St Louis</option>
-      <option value="joplin, mo">Joplin, MO</option>
-      <option value="oklahoma city, ok">Oklahoma City</option>
-      <option value="amarillo, tx">Amarillo</option>
-      <option value="gallup, nm">Gallup, NM</option>
-      <option value="flagstaff, az">Flagstaff, AZ</option>
-      <option value="winona, az">Winona</option>
-      <option value="kingman, az">Kingman</option>
-      <option value="barstow, ca">Barstow</option>
-      <option value="san bernardino, ca">San Bernardino</option>
-      <option value="los angeles, ca">Los Angeles</option>
+      <?php do { ?>
+        <option value="<?php echo $row_Recordset1['hari']; ?>"><?php echo $row_Recordset1['hari']; ?></option>
+      <?php } while ($row_Recordset1 = mysql_fetch_assoc($Recordset1)); ?>
     </select>
     <b>Jam: </b>
     <select id="jam">
-      <option value="chicago, il">Chicago</option>
-      <option value="st louis, mo">St Louis</option>
-      <option value="joplin, mo">Joplin, MO</option>
-      <option value="oklahoma city, ok">Oklahoma City</option>
-      <option value="amarillo, tx">Amarillo</option>
-      <option value="gallup, nm">Gallup, NM</option>
-      <option value="flagstaff, az">Flagstaff, AZ</option>
-      <option value="winona, az">Winona</option>
-      <option value="kingman, az">Kingman</option>
-      <option value="barstow, ca">Barstow</option>
-      <option value="san bernardino, ca">San Bernardino</option>
-      <option value="los angeles, ca">Los Angeles</option>
+      <?php do { ?>
+        <option value="<?php echo $row_Recordset2['waktu']; ?>"><?php echo $row_Recordset2['waktu']; ?></option>
+      <?php } while ($row_Recordset2 = mysql_fetch_assoc($Recordset2)); ?>
     </select>
     <b>Kondisi: </b>
     <select id="kondisi">
@@ -108,91 +149,113 @@
 
       function initMap() {
         styledMapType = new google.maps.StyledMapType([
-              {
-            elementType: 'geometry',
-            stylers: [{color: '#f5f5f5'}]
+              {elementType: 'geometry', stylers: [{color: '#ebe3cd'}]},
+          {elementType: 'labels.text.fill', stylers: [{color: '#523735'}]},
+          {elementType: 'labels.text.stroke', stylers: [{color: '#f5f1e6'}]},
+          {
+            featureType: 'administrative',
+            elementType: 'geometry.stroke',
+            stylers: [{color: '#c9b2a6'}]
           },
           {
-            elementType: 'labels.icon',
-            stylers: [{visibility: 'off'}]
-          },
-          {
-            elementType: 'labels.text.fill',
-            stylers: [{color: '#616161'}]
-          },
-          {
-            elementType: 'labels.text.stroke',
-            stylers: [{color: '#f5f5f5'}]
+            featureType: 'administrative.land_parcel',
+            elementType: 'geometry.stroke',
+            stylers: [{color: '#dcd2be'}]
           },
           {
             featureType: 'administrative.land_parcel',
             elementType: 'labels.text.fill',
-            stylers: [{color: '#bdbdbd'}]
+            stylers: [{color: '#ae9e90'}]
+          },
+          {
+            featureType: 'landscape.natural',
+            elementType: 'geometry',
+            stylers: [{color: '#dfd2ae'}]
           },
           {
             featureType: 'poi',
             elementType: 'geometry',
-            stylers: [{color: '#eeeeee'}]
+            stylers: [{color: '#dfd2ae'}]
           },
           {
             featureType: 'poi',
             elementType: 'labels.text.fill',
-            stylers: [{color: '#757575'}]
+            stylers: [{color: '#93817c'}]
           },
           {
             featureType: 'poi.park',
-            elementType: 'geometry',
-            stylers: [{color: '#e5e5e5'}]
+            elementType: 'geometry.fill',
+            stylers: [{color: '#a5b076'}]
           },
           {
             featureType: 'poi.park',
             elementType: 'labels.text.fill',
-            stylers: [{color: '#9e9e9e'}]
+            stylers: [{color: '#447530'}]
           },
           {
             featureType: 'road',
             elementType: 'geometry',
-            stylers: [{color: '#ffffff'}]
+            stylers: [{color: '#f5f1e6'}]
           },
           {
             featureType: 'road.arterial',
-            elementType: 'labels.text.fill',
-            stylers: [{color: '#757575'}]
+            elementType: 'geometry',
+            stylers: [{color: '#fdfcf8'}]
           },
           {
             featureType: 'road.highway',
             elementType: 'geometry',
-            stylers: [{color: '#dadada'}]
+            stylers: [{color: '#f8c967'}]
           },
           {
             featureType: 'road.highway',
-            elementType: 'labels.text.fill',
-            stylers: [{color: '#616161'}]
+            elementType: 'geometry.stroke',
+            stylers: [{color: '#e9bc62'}]
+          },
+          {
+            featureType: 'road.highway.controlled_access',
+            elementType: 'geometry',
+            stylers: [{color: '#e98d58'}]
+          },
+          {
+            featureType: 'road.highway.controlled_access',
+            elementType: 'geometry.stroke',
+            stylers: [{color: '#db8555'}]
           },
           {
             featureType: 'road.local',
             elementType: 'labels.text.fill',
-            stylers: [{color: '#9e9e9e'}]
+            stylers: [{color: '#806b63'}]
           },
           {
             featureType: 'transit.line',
             elementType: 'geometry',
-            stylers: [{color: '#e5e5e5'}]
+            stylers: [{color: '#dfd2ae'}]
+          },
+          {
+            featureType: 'transit.line',
+            elementType: 'labels.text.fill',
+            stylers: [{color: '#8f7d77'}]
+          },
+          {
+            featureType: 'transit.line',
+            elementType: 'labels.text.stroke',
+            stylers: [{color: '#ebe3cd'}]
           },
           {
             featureType: 'transit.station',
             elementType: 'geometry',
-            stylers: [{color: '#eeeeee'}]
+            stylers: [{color: '#dfd2ae'}]
           },
           {
             featureType: 'water',
-            elementType: 'geometry',
-            stylers: [{color: '#c9c9c9'}]
+            elementType: 'geometry.fill',
+            stylers: [{color: '#b9d3c2'}]
           },
           {
             featureType: 'water',
             elementType: 'labels.text.fill',
-            stylers: [{color: '#9e9e9e'}]
+            stylers: [{color: '#92998d'}]
           }
             ],
             {name: 'Styled Map'});
